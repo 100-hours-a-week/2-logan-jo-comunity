@@ -1,4 +1,4 @@
-package com.example.back;
+package KBT2.comunity.back;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

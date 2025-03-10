@@ -40,7 +40,6 @@ out/
 .vscode/
 
 # Configuration files (환경설정 파일)
-application.yml
 application-*.yml
 *.env
 .env.*

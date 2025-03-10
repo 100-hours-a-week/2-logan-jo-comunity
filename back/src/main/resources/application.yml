@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: KBT-comunity
+  config:
+    import: optional:application-secret.yml
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+springdoc:
+  swagger-ui:
+    path: /
+  api-docs:
+    path: /v3/api-docs

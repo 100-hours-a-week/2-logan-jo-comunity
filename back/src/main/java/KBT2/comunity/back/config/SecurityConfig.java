@@ -2,6 +2,7 @@ package KBT2.comunity.back.config;
 
 import KBT2.comunity.back.config.jwt.JwtAuthenticationFilter;
 import KBT2.comunity.back.config.jwt.JwtUtil;
+import KBT2.comunity.back.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtUtil jwtUtil;
+    private final UserService userService;
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil);
+        return new JwtAuthenticationFilter(jwtUtil, userService);
     }
 
     @Bean

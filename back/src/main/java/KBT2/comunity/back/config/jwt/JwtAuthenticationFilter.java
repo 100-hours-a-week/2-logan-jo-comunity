@@ -1,5 +1,7 @@
 package KBT2.comunity.back.config.jwt;
 
+import KBT2.comunity.back.dto.User.UserDto;
+import KBT2.comunity.back.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
+    private final UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -31,10 +34,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwtUtil.validateToken(token);
             UUID userId = jwtUtil.getUserIdFromToken(token);
 
+            UserDto userDto = userService.getUser(userId);
+
+            if (userDto == null) {
+                System.out.println("JWT 검증 실패");
+                return;
+            }
+
             Authentication authentication = jwtUtil.getAuthentication(token, userId);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-            System.out.println("JWT 검증 실패 또는 토큰 없음");
+            System.out.println("토큰 없음");
         }
 
         filterChain.doFilter(request, response);

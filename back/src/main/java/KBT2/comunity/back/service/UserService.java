@@ -1,11 +1,8 @@
 package KBT2.comunity.back.service;
 
-import KBT2.comunity.back.config.jwt.JwtUtil;
-import KBT2.comunity.back.dto.TokenResponse;
+import KBT2.comunity.back.dto.Token.TokenDto;
 import KBT2.comunity.back.dto.User.*;
-import KBT2.comunity.back.entity.RefreshToken;
 import KBT2.comunity.back.entity.User;
-import KBT2.comunity.back.repository.RefreshTokenRepository;
 import KBT2.comunity.back.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +34,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public TokenResponse login(UserLoginRequest request) {
+    public TokenDto login(UserLoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
         return tokenService.generateTokens(user);

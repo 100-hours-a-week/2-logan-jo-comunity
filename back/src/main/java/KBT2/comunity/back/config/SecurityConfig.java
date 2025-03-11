@@ -34,7 +34,7 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/error"
                         ).permitAll()
-                        .requestMatchers("/", "/health", "/users/signup", "/users/login", "/users/refresh").permitAll()
+                        .requestMatchers("/", "/health", "/users/signup", "/users/login", "/users/refresh", "/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

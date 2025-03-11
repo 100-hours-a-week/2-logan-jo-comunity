@@ -1,4 +1,4 @@
-package KBT2.comunity.back.dto;
+package KBT2.comunity.back.dto.Token;
 
 import lombok.*;
 
@@ -9,5 +9,4 @@ import lombok.*;
 @Builder
 public class TokenResponse {
     private String accessToken;
-    private String refreshToken;
 }

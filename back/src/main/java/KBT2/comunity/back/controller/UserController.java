@@ -1,10 +1,13 @@
 package KBT2.comunity.back.controller;
 
-import KBT2.comunity.back.dto.TokenResponse;
+import KBT2.comunity.back.dto.Token.TokenDto;
+import KBT2.comunity.back.dto.Token.TokenResponse;
 import KBT2.comunity.back.dto.User.*;
 import KBT2.comunity.back.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +24,26 @@ public class UserController {
     public ResponseEntity<Void> signUp(@Valid @RequestBody UserCreateRequest request) {
         try{
             userService.singUp(request);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@Valid @RequestBody UserLoginRequest request) {
+    public ResponseEntity<TokenResponse> login(@Valid @RequestBody UserLoginRequest request, HttpServletResponse response) {
         try{
-            return ResponseEntity.ok(userService.login(request));
+            TokenDto tokenDto = userService.login(request);
+
+            ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
+                    .httpOnly(true)
+                    .secure(false)
+                    .sameSite("Strict")
+                    .maxAge(60 * 60 * 24)
+                    .build();
+
+            response.addHeader("Set-Cookie", cookie.toString());
+            return ResponseEntity.ok(new TokenResponse(tokenDto.getAccessToken()));
         }
         catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
@@ -60,7 +73,7 @@ public class UserController {
     public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UUID id, @Valid @RequestBody UserPasswordUpdateRequest request) {
         try {
             userService.updatePassword(id, request);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -70,7 +83,7 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal UUID id) {
         try {
             userService.deleteUser(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }

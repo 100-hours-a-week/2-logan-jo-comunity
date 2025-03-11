@@ -18,9 +18,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<TokenResponse> signUp(@Valid @RequestBody UserCreateRequest request) {
+    public ResponseEntity<Void> signUp(@Valid @RequestBody UserCreateRequest request) {
         try{
-            return ResponseEntity.ok(userService.singUp(request));
+            userService.singUp(request);
+            return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }

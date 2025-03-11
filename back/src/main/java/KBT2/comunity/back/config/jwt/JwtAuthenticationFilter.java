@@ -28,12 +28,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
 
         if (token != null && jwtUtil.validateToken(token)) {
+            jwtUtil.validateToken(token);
             UUID userId = jwtUtil.getUserIdFromToken(token);
 
             Authentication authentication = jwtUtil.getAuthentication(token, userId);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            System.out.println("SecurityContextHolder에 인증 객체 설정 완료: " + authentication);
         } else {
             System.out.println("JWT 검증 실패 또는 토큰 없음");
         }

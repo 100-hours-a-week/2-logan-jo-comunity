@@ -18,11 +18,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final RefreshTokenRepository refreshTokenRepository;
-    private final JwtUtil jwtUtil;
+    private final TokenService tokenService;
 
     @Transactional
-    public TokenResponse singUp(UserCreateRequest request) {
+    public void singUp(UserCreateRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         } else if (userRepository.existsByNickname(request.getNickname())) {
@@ -36,13 +35,12 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
-        return generateTokens(user);
     }
 
     public TokenResponse login(UserLoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
-        return generateTokens(user);
+        return tokenService.generateTokens(user);
     }
 
     public UserDto getUser(UUID id){
@@ -84,28 +82,5 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         user.setDeleted(true);
-    }
-
-    private TokenResponse generateTokens(User user) {
-        String accessToken = jwtUtil.createAccessToken(user.getId(), user.getEmail());
-
-        Optional<RefreshToken> existingToken = refreshTokenRepository.findById(user.getId());
-        String refreshToken = existingToken.map(RefreshToken::getToken)
-                .orElseGet(() -> {
-                    String newToken = jwtUtil.createRefreshToken(user.getId(), user.getEmail());
-                    saveRefreshToken(user, newToken);
-                    return newToken;
-                });
-
-        return new TokenResponse(accessToken, refreshToken);
-    }
-    private void saveRefreshToken(User user, String refreshToken) {
-        refreshTokenRepository.deleteByToken(refreshToken);
-
-        refreshTokenRepository.save(RefreshToken.builder()
-                .user(user)
-                .token(refreshToken)
-                .expiryDate(java.time.LocalDateTime.now().plusDays(7))
-                .build());
     }
 }

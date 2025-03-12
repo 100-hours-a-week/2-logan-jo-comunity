@@ -22,70 +22,45 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<Void> signUp(@Valid @RequestBody UserCreateRequest request) {
-        try{
-            userService.singUp(request);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        userService.singUp(request);
+        return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@Valid @RequestBody UserLoginRequest request, HttpServletResponse response) {
-        try{
-            TokenDto tokenDto = userService.login(request);
+        TokenDto tokenDto = userService.login(request);
 
-            ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
-                    .httpOnly(true)
-                    .secure(false)
-                    .sameSite("Strict")
-                    .maxAge(60 * 60 * 24)
-                    .build();
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Strict")
+                .maxAge(60 * 60 * 24)
+                .build();
 
-            response.addHeader("Set-Cookie", cookie.toString());
-            return ResponseEntity.ok(new TokenResponse(tokenDto.getAccessToken()));
-        }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        response.addHeader("Set-Cookie", cookie.toString());
+        return ResponseEntity.ok(new TokenResponse(tokenDto.getAccessToken()));
     }
 
     @GetMapping("")
     public ResponseEntity<UserDto> getUser(@AuthenticationPrincipal UUID id) {
-        try {
-            System.out.println(id);
-            return ResponseEntity.ok(userService.getUser(id));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        System.out.println(id);
+        return ResponseEntity.ok(userService.getUser(id));
     }
 
     @PatchMapping("")
     public ResponseEntity<UserDto> updateUser(@AuthenticationPrincipal UUID id, @Valid @RequestBody UserUpdateRequest request) {
-        try {
-            return ResponseEntity.ok(userService.updateUser(id, request));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(userService.updateUser(id, request));
     }
 
     @PatchMapping("/password")
     public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UUID id, @Valid @RequestBody UserPasswordUpdateRequest request) {
-        try {
-            userService.updatePassword(id, request);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        userService.updatePassword(id, request);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("")
     public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal UUID id) {
-        try {
-            userService.deleteUser(id);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 }

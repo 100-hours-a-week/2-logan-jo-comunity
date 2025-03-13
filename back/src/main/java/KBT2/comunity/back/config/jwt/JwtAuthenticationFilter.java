@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserService userService;
 
     private static final List<String> EXCLUDED_PATHS = List.of(
-            "/", "/users/signup", "/users/login", "/users/refresh", "/auth/",
+            "/users/signup", "/users/login", "/users/refresh", "/auth/",
             "/swagger-ui/", "/swagger-ui.html", "/swagger-resources/",
             "/v3/api-docs", "/v3/api-docs/", "/webjars/", "/error", "/health"
     );
@@ -37,14 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
-        if (shouldNotFilter(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String token = resolveToken(request);
-        System.out.println(token);
 
         if (token == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ErrorMessage.Token_NOT_FOUND);

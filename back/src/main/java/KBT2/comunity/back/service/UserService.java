@@ -5,7 +5,7 @@ import KBT2.comunity.back.dto.User.*;
 import KBT2.comunity.back.entity.User;
 import KBT2.comunity.back.exception.code.ConflictException;
 import KBT2.comunity.back.exception.code.NotFoundException;
-import KBT2.comunity.back.exception.message.ErrorMessage;
+import KBT2.comunity.back.util.message.ErrorMessage;
 import KBT2.comunity.back.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

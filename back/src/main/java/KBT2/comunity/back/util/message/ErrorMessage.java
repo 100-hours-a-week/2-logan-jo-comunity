@@ -1,4 +1,4 @@
-package KBT2.comunity.back.exception.message;
+package KBT2.comunity.back.util.message;
 
 public class ErrorMessage {
     public final static String INVALID_REQUEST = "잘못된 요청입니다.";
@@ -12,8 +12,12 @@ public class ErrorMessage {
     public final static String Token_NOT_FOUND = "토큰이 존재하지 않습니다.";
     public final static String INVALID_TOKEN = "유효하지 않은 토큰입니다.";
 
+    // User Error
     public final static String EMAIL_ALREADY_EXISTS = "이미 존재하는 이메일입니다.";
     public final static String NICKNAME_ALREADY_EXISTS = "이미 존재하는 닉네임입니다.";
     public final static String EMAIL_NOT_FOUND = "존재하지 않는 이메일입니다.";
     public final static String USER_NOT_FOUND = "존재하지 않는 유저입니다.";
+
+    // Post Error
+    public final static String POST_NOT_FOUND = "존재하지 않는 게시글입니다.";
 }

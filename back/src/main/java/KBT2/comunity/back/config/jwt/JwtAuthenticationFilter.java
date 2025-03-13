@@ -1,8 +1,7 @@
 package KBT2.comunity.back.config.jwt;
 
 import KBT2.comunity.back.dto.User.UserDto;
-import KBT2.comunity.back.exception.code.UnauthorizedException;
-import KBT2.comunity.back.exception.message.ErrorMessage;
+import KBT2.comunity.back.util.message.ErrorMessage;
 import KBT2.comunity.back.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

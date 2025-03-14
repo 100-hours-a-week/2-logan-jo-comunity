@@ -7,44 +7,31 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "post")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "comment")
 @Where(clause = "is_deleted = false")
-public class Post {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
-
-    @Column(nullable = false, length = 255)
-    private String title;
-
-    @Lob
     @Column(nullable = false)
     private String content;
-
-    private String image;
-
-    @Column(nullable = false)
-    private int likes = 0;
-
-    @Column(nullable = false)
-    private int views = 0;
 
     @Column(nullable = false)
     private boolean isDeleted = false;

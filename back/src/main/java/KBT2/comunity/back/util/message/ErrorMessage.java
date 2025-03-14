@@ -20,4 +20,7 @@ public class ErrorMessage {
 
     // Post Error
     public final static String POST_NOT_FOUND = "존재하지 않는 게시글입니다.";
+
+    // Comment Error
+    public final static String COMMENT_NOT_FOUND = "존재하지 않는 댓글입니다.";
 }

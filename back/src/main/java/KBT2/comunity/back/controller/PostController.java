@@ -2,7 +2,7 @@ package KBT2.comunity.back.controller;
 
 import KBT2.comunity.back.dto.Post.PostCreateRequest;
 import KBT2.comunity.back.dto.Post.PostDto;
-import KBT2.comunity.back.dto.Post.PostResponse;
+import KBT2.comunity.back.dto.Response;
 import KBT2.comunity.back.service.PostService;
 import KBT2.comunity.back.util.ApiResponse;
 import KBT2.comunity.back.util.message.SuccessMessage;
@@ -21,7 +21,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("")
-    public ApiResponse<PostResponse> createPost(@AuthenticationPrincipal UUID userId, @Valid @RequestBody PostCreateRequest request) {
+    public ApiResponse<Response> createPost(@AuthenticationPrincipal UUID userId, @Valid @RequestBody PostCreateRequest request) {
         return ApiResponse.ok(SuccessMessage.POST_SUCCESS, postService.createPost(userId, request));
     }
     @GetMapping("")

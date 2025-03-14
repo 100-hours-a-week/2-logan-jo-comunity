@@ -1,4 +1,4 @@
-package KBT2.comunity.back.dto.Post;
+package KBT2.comunity.back.dto;
 
 import lombok.*;
 
@@ -9,6 +9,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostResponse {
+public class Response {
     private UUID id;
 }

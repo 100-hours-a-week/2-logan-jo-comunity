@@ -2,12 +2,12 @@ package KBT2.comunity.back.service;
 
 import KBT2.comunity.back.dto.Post.PostCreateRequest;
 import KBT2.comunity.back.dto.Post.PostDto;
-import KBT2.comunity.back.dto.Post.PostResponse;
+import KBT2.comunity.back.dto.Response;
 import KBT2.comunity.back.entity.Post;
 import KBT2.comunity.back.entity.User;
 import KBT2.comunity.back.exception.code.NotFoundException;
 import KBT2.comunity.back.util.message.ErrorMessage;
-import KBT2.comunity.back.repository.PostRepositroy;
+import KBT2.comunity.back.repository.PostRepository;
 import KBT2.comunity.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PostService {
-    private final PostRepositroy postRepository;
+    private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public PostResponse createPost(UUID userId, PostCreateRequest request) {
+    public Response createPost(UUID userId, PostCreateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
 
         Post post = Post.builder()
@@ -35,7 +35,7 @@ public class PostService {
 
         postRepository.save(post);
         user.getPosts().add(post);
-        return new PostResponse(post.getId());
+        return new Response(post.getId());
     }
     public List<PostDto> getPostList(UUID userId) {
         return postRepository.findAllByUserId(userId).stream().map(PostDto::fromEntity).collect(Collectors.toList());

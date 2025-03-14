@@ -34,6 +34,7 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
+        user.getPosts().add(post);
         return new PostResponse(post.getId());
     }
     public List<PostDto> getPostList(UUID userId) {

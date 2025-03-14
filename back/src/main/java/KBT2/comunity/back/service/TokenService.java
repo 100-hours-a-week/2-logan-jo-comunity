@@ -21,10 +21,14 @@ public class TokenService {
 
         Optional<RefreshToken> existingToken = refreshTokenRepository.findByUserId(user.getId());
 
-        String refreshToken = existingToken
-                .filter(token -> jwtUtil.validateToken(token.getToken()))
-                .map(RefreshToken::getToken)
-                .orElseGet(() -> createAndSaveRefreshToken(user));
+        String refreshToken = existingToken.map(token -> {
+            try{
+                jwtUtil.validateToken(token.getToken());
+                return token.getToken();
+            } catch (Exception e) {
+                return createAndSaveRefreshToken(user);
+            }
+        }).orElseGet(() -> createAndSaveRefreshToken(user));
 
         return new TokenDto(accessToken, refreshToken);
     }

@@ -5,10 +5,12 @@ import KBT2.comunity.back.dto.User.*;
 import KBT2.comunity.back.entity.User;
 import KBT2.comunity.back.exception.code.ConflictException;
 import KBT2.comunity.back.exception.code.NotFoundException;
+import KBT2.comunity.back.exception.code.UnauthorizedException;
 import KBT2.comunity.back.util.message.ErrorMessage;
 import KBT2.comunity.back.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
     @Transactional
@@ -27,9 +30,12 @@ public class UserService {
         } else if (userRepository.existsByNickname(request.getNickname())) {
             throw new ConflictException(ErrorMessage.NICKNAME_ALREADY_EXISTS);
         }
+
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
         User user = User.builder()
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .nickname(request.getNickname())
                 .logoImage(request.getLogoImage())
                 .build();
@@ -40,6 +46,11 @@ public class UserService {
     public TokenDto login(UserLoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new UnauthorizedException(ErrorMessage.INVALID_PASSWORD);
+        }
+
         return tokenService.generateTokens(user);
     }
 

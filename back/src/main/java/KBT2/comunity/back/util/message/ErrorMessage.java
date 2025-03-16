@@ -15,6 +15,7 @@ public class ErrorMessage {
     // User Error
     public final static String EMAIL_ALREADY_EXISTS = "이미 존재하는 이메일입니다.";
     public final static String NICKNAME_ALREADY_EXISTS = "이미 존재하는 닉네임입니다.";
+    public final static String INVALID_PASSWORD = "비밀번호가 일치하지 않습니다.";
     public final static String EMAIL_NOT_FOUND = "존재하지 않는 이메일입니다.";
     public final static String USER_NOT_FOUND = "존재하지 않는 유저입니다.";
 

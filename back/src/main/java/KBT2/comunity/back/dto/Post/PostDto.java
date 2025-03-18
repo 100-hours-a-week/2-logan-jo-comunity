@@ -1,12 +1,8 @@
 package KBT2.comunity.back.dto.Post;
 
-import KBT2.comunity.back.dto.Comment.CommentDto;
-import KBT2.comunity.back.entity.Comment;
 import KBT2.comunity.back.entity.Post;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -37,7 +33,8 @@ public class PostDto {
                 .authorImage(post.getUser().getLogoImage())
                 .likes(post.getLikes())
                 .views(post.getViews())
-                .comments(post.getComments().size())
+//                .comments(post.getComments().size())
+                .comments(post.getComments())
                 .createdAt(post.getCreatedAt().toString())
                 .updatedAt(post.getUpdatedAt().toString())
                 .build();

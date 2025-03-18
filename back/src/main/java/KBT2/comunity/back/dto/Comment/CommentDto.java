@@ -25,8 +25,8 @@ public class CommentDto {
     public static CommentDto fromEntity(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
-                .postId(comment.getPost().getId())
-                .userId(comment.getUser().getId())
+                .postId(comment.getId())
+                .userId(comment.getId())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .build();

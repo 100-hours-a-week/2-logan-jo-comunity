@@ -1,8 +1,8 @@
 package KBT2.comunity.back.config.jwt;
 
 import KBT2.comunity.back.dto.User.UserDto;
-import KBT2.comunity.back.util.message.ErrorMessage;
 import KBT2.comunity.back.service.UserService;
+import KBT2.comunity.back.util.message.ErrorMessage;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +38,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String token = resolveToken(request);
 
         if (token == null) {

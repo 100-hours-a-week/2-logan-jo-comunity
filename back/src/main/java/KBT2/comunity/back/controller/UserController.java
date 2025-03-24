@@ -5,8 +5,8 @@ import KBT2.comunity.back.dto.Token.TokenResponse;
 import KBT2.comunity.back.dto.User.*;
 import KBT2.comunity.back.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,14 +30,15 @@ public class UserController {
     public ResponseEntity<TokenResponse> login(@Valid @RequestBody UserLoginRequest request, HttpServletResponse response) {
         TokenDto tokenDto = userService.login(request);
 
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
+        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", tokenDto.getRefreshToken())
                 .httpOnly(true)
-                .secure(false)
-                .sameSite("Strict")
+                .secure(true)
+                .sameSite("None")
                 .maxAge(60 * 60 * 24)
+                .path("/")
                 .build();
 
-        response.addHeader("Set-Cookie", cookie.toString());
+        response.setHeader("Set-Cookie", refreshTokenCookie.toString());
         return ResponseEntity.ok(new TokenResponse(tokenDto.getAccessToken()));
     }
 

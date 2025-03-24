@@ -6,8 +6,8 @@ import KBT2.comunity.back.entity.User;
 import KBT2.comunity.back.exception.code.ConflictException;
 import KBT2.comunity.back.exception.code.NotFoundException;
 import KBT2.comunity.back.exception.code.UnauthorizedException;
-import KBT2.comunity.back.util.message.ErrorMessage;
 import KBT2.comunity.back.repository.UserRepository;
+import KBT2.comunity.back.util.message.ErrorMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,7 +54,7 @@ public class UserService {
         return tokenService.generateTokens(user);
     }
 
-    public UserDto getUser(UUID id){
+    public UserDto getUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND));
         return UserDto.fromEntity(user);
@@ -85,7 +85,9 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND));
 
-        user.setPassword(request.getNewPassword());
+        String encodedPassword = passwordEncoder.encode(request.getNewPassword());
+
+        user.setPassword(encodedPassword);
     }
 
     @Transactional

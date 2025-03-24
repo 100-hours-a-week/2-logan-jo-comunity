@@ -19,6 +19,7 @@ public class CommentDto {
     private UUID id;
     private UUID postId;
     private UUID userId;
+    private CommentUserInfo userInfo;
     private String content;
     private LocalDateTime createdAt;
 
@@ -27,6 +28,9 @@ public class CommentDto {
                 .id(comment.getId())
                 .postId(comment.getPost().getId())
                 .userId(comment.getUser().getId())
+                .userInfo(CommentUserInfo.builder()
+                        .nickname(comment.getUser().getNickname())
+                        .logoImage(comment.getUser().getLogoImage()).build())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .build();

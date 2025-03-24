@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/post/{postId}/comment")
+@RequestMapping("/posts/{postId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
@@ -23,18 +23,22 @@ public class CommentController {
     public ApiResponse<Response> createComment(@PathVariable UUID postId, @Valid @RequestBody CommentCreateRequest request) {
         return ApiResponse.ok(SuccessMessage.POST_SUCCESS, commentService.createComment(postId, request));
     }
+
     @GetMapping("")
     public ApiResponse<List<CommentDto>> getCommentList(@PathVariable UUID postId) {
         return ApiResponse.ok(SuccessMessage.FIND_SUCCESS, commentService.getCommentList(postId));
     }
+
     @GetMapping("/{commentId}")
     public ApiResponse<CommentDto> getComment(@PathVariable UUID commentId) {
         return ApiResponse.ok(SuccessMessage.FIND_SUCCESS, commentService.getComment(commentId));
     }
+
     @PatchMapping("/{commentId}")
     public ApiResponse<CommentDto> updateComment(@PathVariable UUID commentId, @Valid @RequestBody CommentCreateRequest request) {
         return ApiResponse.ok(SuccessMessage.PATCH_SUCCESS, commentService.updateComment(commentId, request));
     }
+
     @DeleteMapping("/{commentId}")
     public ApiResponse<Response> deleteComment(@PathVariable UUID commentId) {
         commentService.deleteComment(commentId);

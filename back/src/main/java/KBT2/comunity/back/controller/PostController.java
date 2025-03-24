@@ -24,23 +24,28 @@ public class PostController {
     public ApiResponse<Response> createPost(@AuthenticationPrincipal UUID userId, @Valid @RequestBody PostCreateRequest request) {
         return ApiResponse.ok(SuccessMessage.POST_SUCCESS, postService.createPost(userId, request));
     }
+
     @GetMapping("")
-    public ApiResponse<List<PostDto>> getPostList(@AuthenticationPrincipal UUID userId) {
-        return ApiResponse.ok(SuccessMessage.FIND_SUCCESS, postService.getPostList(userId));
+    public ApiResponse<List<PostDto>> getPostList() {
+        return ApiResponse.ok(SuccessMessage.FIND_SUCCESS, postService.getPostList());
     }
+
     @GetMapping("/{postId}")
     public ApiResponse<PostDto> getPost(@PathVariable UUID postId) {
         return ApiResponse.ok(postService.getPost(postId));
     }
+
     @PatchMapping("/{postId}")
     public ApiResponse<PostDto> updatePost(@PathVariable UUID postId, @Valid @RequestBody PostCreateRequest request) {
         return ApiResponse.ok(SuccessMessage.PATCH_SUCCESS, postService.updatePost(postId, request));
     }
+
     @PatchMapping("/{postId}/like")
     public ApiResponse<Void> addLike(@PathVariable UUID postId) {
         postService.addLike(postId);
         return ApiResponse.ok(SuccessMessage.PATCH_SUCCESS);
     }
+
     @DeleteMapping("/{postId}")
     public ApiResponse<Void> deletePost(@PathVariable UUID postId) {
         postService.deletePost(postId);

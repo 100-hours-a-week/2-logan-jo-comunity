@@ -12,7 +12,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,9 +24,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final ImageUploadService imageUploadService;
 
     @Transactional
     public void singUp(UserCreateRequest request) {
+        System.out.println(request);
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new ConflictException(ErrorMessage.EMAIL_ALREADY_EXISTS);
         } else if (userRepository.existsByNickname(request.getNickname())) {
@@ -32,12 +36,21 @@ public class UserService {
         }
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
+        String imageUrl = null;
+        MultipartFile logoImageFile = request.getLogoImage();
+        if (logoImageFile != null && !logoImageFile.isEmpty()) {
+            try {
+                imageUrl = imageUploadService.uploadToImgbb(logoImageFile);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 업로드 실패", e);
+            }
+        }
 
         User user = User.builder()
                 .email(request.getEmail())
                 .password(encodedPassword)
                 .nickname(request.getNickname())
-                .logoImage(request.getLogoImage())
+                .logoImage(imageUrl)
                 .build();
 
         userRepository.save(user);
@@ -74,9 +87,20 @@ public class UserService {
         }
 
         if (request.getLogoImage() != null) {
-            user.setLogoImage(request.getLogoImage());
-        }
+            String imageUrl = null;
+            MultipartFile logoImageFile = request.getLogoImage();
+            if (!logoImageFile.isEmpty()) {
+                try {
+                    imageUrl = imageUploadService.uploadToImgbb(logoImageFile);
+                } catch (IOException e) {
+                    throw new RuntimeException("이미지 업로드 실패", e);
+                }
+            }
+            System.out.println(imageUrl);
 
+            user.setLogoImage(imageUrl);
+        }
+        userRepository.save(user);
         return UserDto.fromEntity(user);
     }
 
@@ -88,6 +112,7 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(request.getNewPassword());
 
         user.setPassword(encodedPassword);
+        userRepository.save(user);
     }
 
     @Transactional
@@ -95,5 +120,6 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.NOT_FOUND));
         user.setDeleted(true);
+        userRepository.save(user);
     }
 }

@@ -21,7 +21,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("")
-    public ApiResponse<Response> createPost(@AuthenticationPrincipal UUID userId, @Valid @RequestBody PostCreateRequest request) {
+    public ApiResponse<Response> createPost(@AuthenticationPrincipal UUID userId, @Valid @ModelAttribute PostCreateRequest request) {
         return ApiResponse.ok(SuccessMessage.POST_SUCCESS, postService.createPost(userId, request));
     }
 
@@ -36,7 +36,7 @@ public class PostController {
     }
 
     @PatchMapping("/{postId}")
-    public ApiResponse<PostDto> updatePost(@PathVariable UUID postId, @Valid @RequestBody PostCreateRequest request) {
+    public ApiResponse<PostDto> updatePost(@PathVariable UUID postId, @Valid @ModelAttribute PostCreateRequest request) {
         return ApiResponse.ok(SuccessMessage.PATCH_SUCCESS, postService.updatePost(postId, request));
     }
 

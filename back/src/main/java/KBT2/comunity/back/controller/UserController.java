@@ -21,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@Valid @RequestBody UserCreateRequest request) {
+    public ResponseEntity<Void> signUp(@Valid @ModelAttribute UserCreateRequest request) {
         userService.singUp(request);
         return ResponseEntity.status(201).build();
     }
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PatchMapping("")
-    public ResponseEntity<UserDto> updateUser(@AuthenticationPrincipal UUID id, @Valid @RequestBody UserUpdateRequest request) {
+    public ResponseEntity<UserDto> updateUser(@AuthenticationPrincipal UUID id, @Valid @ModelAttribute UserUpdateRequest request) {
         return ResponseEntity.ok(userService.updateUser(id, request));
     }
 

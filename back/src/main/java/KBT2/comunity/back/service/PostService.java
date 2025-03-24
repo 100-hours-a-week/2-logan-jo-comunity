@@ -6,9 +6,9 @@ import KBT2.comunity.back.dto.Response;
 import KBT2.comunity.back.entity.Post;
 import KBT2.comunity.back.entity.User;
 import KBT2.comunity.back.exception.code.NotFoundException;
-import KBT2.comunity.back.util.message.ErrorMessage;
 import KBT2.comunity.back.repository.PostRepository;
 import KBT2.comunity.back.repository.UserRepository;
+import KBT2.comunity.back.util.message.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +37,11 @@ public class PostService {
         user.getPosts().add(post);
         return new Response(post.getId());
     }
-    public List<PostDto> getPostList(UUID userId) {
-        return postRepository.findAllByUserId(userId).stream().map(PostDto::fromEntity).collect(Collectors.toList());
+
+    public List<PostDto> getPostList() {
+        return postRepository.findAllByOrderByUpdatedAtDesc().stream().map(PostDto::fromEntity).collect(Collectors.toList());
     }
+
     @Transactional
     public PostDto getPost(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorMessage.POST_NOT_FOUND));
@@ -49,6 +51,7 @@ public class PostService {
 
         return PostDto.fromEntity(post);
     }
+
     @Transactional
     public PostDto updatePost(UUID postId, PostCreateRequest request) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorMessage.POST_NOT_FOUND));
@@ -66,12 +69,14 @@ public class PostService {
 
         return PostDto.fromEntity(post);
     }
+
     @Transactional
     public void addLike(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorMessage.POST_NOT_FOUND));
         post.setLikes(post.getLikes() + 1);
         postRepository.save(post);
     }
+
     @Transactional
     public void deletePost(UUID postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorMessage.POST_NOT_FOUND));

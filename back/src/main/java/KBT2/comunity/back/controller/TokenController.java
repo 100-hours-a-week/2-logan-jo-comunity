@@ -8,7 +8,11 @@ import KBT2.comunity.back.service.TokenService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Optional;
 
 @RestController
@@ -19,7 +23,7 @@ public class TokenController {
     private final TokenService tokenService;
 
     @PostMapping("/token")
-    public ResponseEntity<TokenResponse> refreshAccessToken(@RequestBody String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<TokenResponse> refreshAccessToken(@CookieValue(value = "refreshToken", required = true) String refreshToken, HttpServletResponse response) {
         try {
             Optional<RefreshToken> storedToken = refreshTokenRepository.findByToken(refreshToken);
             RefreshToken token = storedToken.orElseThrow(() -> new IllegalArgumentException("유효하지 않은 토큰입니다."));

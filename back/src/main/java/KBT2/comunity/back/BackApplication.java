@@ -1,4 +1,4 @@
-package com.example.back;
+package KBT2.comunity.back;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

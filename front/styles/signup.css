@@ -1,0 +1,118 @@
+.signup {
+  width: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.user-edit-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.user-edit h1 {
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 700;
+}
+.user-edit-container-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-edit-container-item .label {
+  width: 100%;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 700;
+  margin: 4px;
+}
+.user-edit-container-item img {
+  width: 149px;
+  height: 149px;
+}
+.user-edit-container-item .text {
+  width: 100%;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 400;
+}
+.user-edit-container-item .error-message {
+  width: 100%;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 400;
+}
+.input-text {
+  font-size: 16px;
+  line-height: 23px;
+  border-radius: 4px;
+  border: 1px solid black;
+  padding: 5px 10px;
+  width: calc(100% - 20px);
+}
+.error-message {
+  color: red;
+  margin: 4px 0;
+}
+.button {
+  width: 100%;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 10px;
+  background-color: #aca0e8;
+  padding: 10px 0;
+  color: white;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  cursor: not-allowed;
+}
+#signin {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.submit-button {
+  width: 102px;
+  height: 46px;
+  border-radius: 100vh;
+  border: none;
+  padding: 5px 10px;
+  background-color: #aca0e8;
+  color: white;
+  font-size: 14px;
+  line-height: 17px;
+  cursor: pointer;
+  margin-top: 40px;
+  &:hover {
+    background-color: #7f6aee;
+  }
+}
+.profile-image-container {
+  position: relative;
+}
+#profile-image {
+  width: 149px;
+  height: 149px;
+  border-radius: 50%;
+}
+.change-image-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.change-image-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}

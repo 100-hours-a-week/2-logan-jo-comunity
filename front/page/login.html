@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/login.css" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <section class="main">
+      <header-component menu></header-component>
+      <div style="height: 100%">
+        <article class="login-form">
+          <div class="login-form-title">로그인</div>
+          <div class="login-form-container">
+            <div class="login-form-input-container">
+              <div class="login-form-input-container-item">
+                <div class="login-input-label">이메일</div>
+                <input
+                  type="email"
+                  class="login-input"
+                  id="email"
+                  placeholder="이메일을 입력하세요"
+                  required
+                />
+              </div>
+              <div class="login-form-input-container-item">
+                <div class="login-input-label">비밀번호</div>
+                <input
+                  type="password"
+                  class="login-input"
+                  id="password"
+                  placeholder="비밀번호를 입력하세요"
+                  required
+                />
+                <div id="error-message"></div>
+              </div>
+            </div>
+            <input
+              type="submit"
+              value="로그인"
+              class="login-submit"
+              id="login-submit"
+            />
+            <a href="/signup" class="login-signup-link">회원가입</a>
+          </div>
+        </article>
+      </div>
+    </section>
+    <script type="module" src="/components/Header.js"></script>
+    <script type="module" src="/javascript/login.js"></script>
+    <script type="module" src="../util/navigate.js"></script>
+  </body>
+</html>

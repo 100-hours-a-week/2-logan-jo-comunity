@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignIn Page</title>
+    <link rel="stylesheet" href="/styles/signup.css" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <script type="module" src="/javascript/signup.js"></script>
+  </head>
+  <body>
+    <section class="main">
+      <header-component back menu></header-component>
+      <article class="signup">
+        <div class="user-edit-container">
+          <h1 class="title">회원가입</h1>
+          <div class="user-edit-container-item">
+            <p class="label">프로필 사진</p>
+            <p id="image-error" class="error-message">*helper text</p>
+            <div class="profile-image-container">
+              <img id="profile-image" alt="로고 이미지" />
+              <input
+                type="file"
+                id="file-input"
+                accept="image/*"
+                style="display: none"
+              />
+              <button id="change-image-button" class="change-image-button">
+                변경
+              </button>
+            </div>
+          </div>
+          <div class="user-edit-container-item">
+            <p class="label">이메일*</p>
+            <input
+              id="email"
+              class="input-text"
+              type="email"
+              placeholder="이메일을 입력하세요"
+            />
+            <p id="email-error" class="error-message">*helper text</p>
+          </div>
+          <div class="user-edit-container-item">
+            <p class="label">비밀번호*</p>
+            <input
+              id="password"
+              class="input-text"
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+            />
+            <p id="password-error" class="error-message">* helper text</p>
+          </div>
+          <div class="user-edit-container-item">
+            <p class="label">비밀번호 확인*</p>
+            <input
+              id="password-check"
+              class="input-text"
+              type="password"
+              placeholder="비밀번호를 한번 더 입력하세요"
+            />
+            <p id="password-check-error" class="error-message">* helper text</p>
+          </div>
+          <div class="user-edit-container-item">
+            <p class="label">닉네임</p>
+            <input
+              id="nickname"
+              class="input-text"
+              type="text"
+              placeholder="닉네임을 입력하세요"
+            />
+            <p id="nickname-error" class="error-message">* helper text</p>
+          </div>
+          <input
+            class="button"
+            id="edit-button"
+            type="button"
+            value="회원가입"
+          />
+          <a href="/" id="signin">로그인하러 가기</a>
+        </div>
+      </article>
+      <div id="toast" class="toast">수정 완료</div>
+    </section>
+  </body>
+</html>

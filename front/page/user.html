@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/styles/user.css" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <script type="module" src="/javascript/user.js"></script>
+  </head>
+  <body>
+    <section class="main">
+      <header-component back></header-component>
+      <article class="user-edit">
+        <div class="user-edit-container">
+          <h1 class="title">회원정보수정</h1>
+          <div class="user-edit-container-item">
+            <p class="label">프로필 사진*</p>
+            <div class="profile-image-container">
+              <img
+                id="profile-image"
+                src="/public/images/logo.png"
+                alt="로고 이미지"
+              />
+              <input
+                type="file"
+                id="file-input"
+                accept="image/*"
+                style="display: none"
+              />
+              <button id="change-image-button" class="change-image-button">
+                변경
+              </button>
+            </div>
+          </div>
+          <div class="user-edit-container-item">
+            <p class="label">이메일</p>
+            <p id="email-text" class="text">startupcode@gmail.com</p>
+          </div>
+          <div class="user-edit-container-item">
+            <p class="label">닉네임</p>
+            <input
+              id="nickname"
+              class="input-text"
+              type="text"
+              value="스타트업코드"
+            />
+            <p id="error-message" class="error-message">* helper text</p>
+          </div>
+          <input
+            class="button"
+            id="edit-button"
+            type="button"
+            value="수정하기"
+          />
+          <p id="delete-user">회원탈퇴</p>
+          <input
+            id="submit-button"
+            class="submit-button"
+            type="submit"
+            value="수정완료"
+          />
+        </div>
+      </article>
+      <div id="toast" class="toast">수정 완료</div>
+    </section>
+    <div id="delete-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h2 class="modal-title">회원 탈퇴하시겠습니까?</h2>
+        <p class="modal-text">작성된 게시글과 댓글은 삭제됩니다.</p>
+        <button id="cancel-delete" class="modal-button">취소</button>
+        <button id="confirm-delete" class="modal-button">확인</button>
+      </div>
+    </div>
+  </body>
+</html>

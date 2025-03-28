@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posts Page</title>
+    <link rel="stylesheet" href="/styles/posts.css" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <script type="module" src="/javascript/posts.js"></script>
+  </head>
+  <body>
+    <section class="post-main">
+      <header-component></header-component>
+      <article class="post-container">
+        <h2 class="title">
+          안녕하세요,<br />
+          아무말 대잔치 <span class="bold">게시판</span> 입니다.
+        </h2>
+        <div style="width: 100%; display: flex; justify-content: flex-end">
+          <a href="/posts/write">
+            <button class="write-button" id="write-button">게시글 작성</button>
+          </a>
+        </div>
+        <div id="posts-list" class="posts-list"></div>
+      </article>
+    </section>
+  </body>
+</html>
